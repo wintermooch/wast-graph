@@ -3,7 +3,7 @@ node_js:
   - "5"
 env:
   matrix:
-    - TEST_SUITE=test:node
+    - TEST_SUITE=test
 matrix:
   fast_finish: true
   include:
