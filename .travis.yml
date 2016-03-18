@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+  - "4"
+  - "5"
+env:
+  matrix:
+    - TEST_SUITE=test:node
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      node_js: "4"
+      env: TEST_SUITE=coveralls
+    - os: linux
+      node_js: "4"
+      env: TEST_SUITE=lint
+    - os: linux
+      node_js: "4"
+      env: TEST_SUITE=test:browser
+script: npm run $TEST_SUITE
