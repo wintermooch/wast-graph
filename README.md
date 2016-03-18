@@ -5,18 +5,19 @@
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)  
 
-a module for manipulating webassembly's ast
+A module for manipulating webassembly's ast. It uses the [AST JSON format](https://github.com/drom/wast-spec) produce by [wast-parser](https://github.com/drom/wast-parser).
 
 # INSTALL
-`npm install <name>`
+`npm install wast-transform`
 
-# USAGE
+# API
+This has about same API as [generic-digraph](https://github.com/wanderer/generic-digraph/blob/master/docs/index.md). With a couple of additional functions
 
-```javascript
+## parse(json)
+Creates an AST from the JSON format. Properties of each node are stored in `value`.
 
-```
-
-
+## toJSON
+Reproduces the AST in the JSON format
 
 # LICENSE
 [MPL-2.0](https://tldrlegal.com/license/mozilla-public-license-2.0-(mpl-2))
