@@ -1,0 +1,45 @@
+{
+  "name": "name",
+  "version": "0.0.0",
+  "description": "stuff",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "istanbul cover ./test/index.js",
+    "coveralls": "npm run coverage && coveralls <coverage/lcov.info",
+    "lint": "standard",
+    "test": "npm run test:node && npm run test:browser",
+    "test:browser": "karma start karma.conf.js",
+    "test:node": "tape ./test/index.js",
+    "build:docs": "documentation --github  -f md ./index.js > ./docs/index.md"
+  },
+  "keywords": [],
+  "author": "mjbecze <mjbecze@gmail.com>",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "functional-dag": "^1.1.0",
+    "generic-digraph": "^2.3.0",
+    "wast-parser": "^0.13.1"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "coveralls": "^2.11.4",
+    "documentation": "^3.0.4",
+    "istanbul": "^0.4.1",
+    "karma": "^0.13.15",
+    "karma-browserify": "^5.0.0",
+    "karma-detect-browsers": "^2.0.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-tap": "^1.0.3",
+    "standard": "^5.2.2",
+    "tape": "^4.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}
