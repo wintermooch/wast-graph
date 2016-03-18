@@ -1,5 +1,5 @@
 {
-  "name": "wasm-ast",
+  "name": "wast-transform",
   "version": "0.0.0",
   "description": "a module for manipulating webassembly's ast",
   "main": "index.js",
@@ -7,10 +7,7 @@
     "coverage": "istanbul cover ./test/index.js",
     "coveralls": "npm run coverage && coveralls <coverage/lcov.info",
     "lint": "standard",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "karma start karma.conf.js",
-    "test:node": "tape ./test/index.js",
-    "build:docs": "documentation --github  -f md ./index.js > ./docs/index.md"
+    "test": "tape ./test/index.js"
   },
   "keywords": ["wast", "wasm", "ast"],
   "author": "mjbecze <mjbecze@gmail.com>",
@@ -20,17 +17,16 @@
   },
   "devDependencies": {
     "coveralls": "^2.11.4",
-    "documentation": "^3.0.4",
     "istanbul": "^0.4.1",
     "standard": "^5.2.2",
     "tape": "^4.0.3"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:wanderer/wast-transform.git"
   },
   "bugs": {
-    "url": ""
+    "url": "https://github.com/wanderer/wast-transform/issues"
   },
-  "homepage": ""
+  "homepage": "https://github.com/wanderer/wast-transform"
 }
