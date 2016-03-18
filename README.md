@@ -1,7 +1,7 @@
 # SYNOPSIS 
-[![NPM Package](https://img.shields.io/npm/v/wast-transform.svg?style=flat-square)](https://www.npmjs.org/package/wast-transform)
-[![Build Status](https://img.shields.io/travis/wanderer/wast-transform.svg?branch=master&style=flat-square)](https://travis-ci.org/wanderer/wast-transform)
-[![Coverage Status](https://img.shields.io/coveralls/wanderer/wast-transform.svg?style=flat-square)](https://coveralls.io/r/wanderer/wast-transform)
+[![NPM Package](https://img.shields.io/npm/v/wast-graph.svg?style=flat-square)](https://www.npmjs.org/package/wast-graph)
+[![Build Status](https://img.shields.io/travis/wanderer/wast-graph.svg?branch=master&style=flat-square)](https://travis-ci.org/wanderer/wast-graph)
+[![Coverage Status](https://img.shields.io/coveralls/wanderer/wast-graph.svg?style=flat-square)](https://coveralls.io/r/wanderer/wast-graph)
 
 [![js-standard-style](https://cdn.rawgit.com/feross/standard/master/badge.svg)](https://github.com/feross/standard)  
 

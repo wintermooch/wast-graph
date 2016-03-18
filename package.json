@@ -1,7 +1,7 @@
 {
-  "name": "wast-transform",
+  "name": "wast-graph",
   "version": "0.0.0",
-  "description": "a module for manipulating webassembly's ast",
+  "description": "a module for reading and manipulating webassembly's ast",
   "main": "index.js",
   "scripts": {
     "coverage": "istanbul cover ./test/index.js",
@@ -9,7 +9,7 @@
     "lint": "standard",
     "test": "tape ./test/index.js"
   },
-  "keywords": ["wast", "wasm", "ast"],
+  "keywords": ["wast", "wasm", "ast", "graph"],
   "author": "mjbecze <mjbecze@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
@@ -23,10 +23,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:wanderer/wast-transform.git"
+    "url": "git@github.com:wanderer/wast-graph.git"
   },
   "bugs": {
-    "url": "https://github.com/wanderer/wast-transform/issues"
+    "url": "https://github.com/wanderer/wast-graph/issues"
   },
-  "homepage": "https://github.com/wanderer/wast-transform"
+  "homepage": "https://github.com/wanderer/wast-graph"
 }
