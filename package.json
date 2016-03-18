@@ -1,7 +1,7 @@
 {
-  "name": "name",
+  "name": "wasm-ast",
   "version": "0.0.0",
-  "description": "stuff",
+  "description": "a module for manipulating webassembly's ast",
   "main": "index.js",
   "scripts": {
     "coverage": "istanbul cover ./test/index.js",
@@ -12,25 +12,16 @@
     "test:node": "tape ./test/index.js",
     "build:docs": "documentation --github  -f md ./index.js > ./docs/index.md"
   },
-  "keywords": [],
+  "keywords": ["wast", "wasm", "ast"],
   "author": "mjbecze <mjbecze@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "functional-dag": "^1.1.0",
-    "generic-digraph": "^2.3.0",
-    "wast-parser": "^0.13.1"
+    "generic-digraph": "^2.4.0"
   },
   "devDependencies": {
-    "browserify": "^13.0.0",
     "coveralls": "^2.11.4",
     "documentation": "^3.0.4",
     "istanbul": "^0.4.1",
-    "karma": "^0.13.15",
-    "karma-browserify": "^5.0.0",
-    "karma-detect-browsers": "^2.0.2",
-    "karma-env-preprocessor": "^0.1.1",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-tap": "^1.0.3",
     "standard": "^5.2.2",
     "tape": "^4.0.3"
   },

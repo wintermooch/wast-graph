@@ -64,12 +64,10 @@ module.exports = class AST extends Graph {
     } else {
       const branches = visitorKeys[json.kind]
       const self = this
-      if (branches) {
-        branches.forEach(function (br) {
-          self.setEdge(br, json[br])
-          delete json[br]
-        })
-      }
+      branches.forEach(function (br) {
+        self.setEdge(br, json[br])
+        delete json[br]
+      })
       this._value = json
     }
   }
