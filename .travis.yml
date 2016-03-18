@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "4"
   - "5"
 env:
   matrix:
@@ -14,7 +13,4 @@ matrix:
     - os: linux
       node_js: "4"
       env: TEST_SUITE=lint
-    - os: linux
-      node_js: "4"
-      env: TEST_SUITE=test:browser
 script: npm run $TEST_SUITE

@@ -1,3 +1,4 @@
+'use strict'
 const Graph = require('generic-digraph')
 
 const visitorKeys = {
