@@ -58,11 +58,19 @@ module.exports = class AST extends Graph {
 
   parse (json) {
     if (Array.isArray(json)) {
-      const self = this
-      json.forEach((el, i) => {
-        self.setEdge(i, el)
-      })
+      this._value = {
+        array: true
+      }
+
+      if (json.length) {
+        json = json.slice(0)
+        const self = this
+        json.forEach((el, i) => {
+          self.setEdge(i, el)
+        })
+      }
     } else {
+      json = Object.assign({}, json)
       const branches = visitorKeys[json.kind]
       const self = this
       branches.forEach(function (br) {
@@ -75,16 +83,36 @@ module.exports = class AST extends Graph {
 
   toJSON () {
     let value = this.getValue()
-    if (value) {
-      for (const el of this.edges) {
-        value[el[0]] = el[1].toJSON()
+    if (this.edges.size) {
+      if (value.array) {
+        value = []
+        for (const el of this.edges) {
+          value.push(el[1].toJSON())
+        }
+      } else {
+        for (const el of this.edges) {
+          value[el[0]] = el[1].toJSON()
+        }
       }
-    } else {
-      value = []
-      for (const el of this.edges) {
-        value.push(el[1].toJSON())
-      }
+    } else if (!value) {
+      return null
+    } else if (value.array) {
+      return []
     }
     return value
+  }
+
+  unshiftEdge (edge) {
+    if (!(edge instanceof AST)) {
+      edge = new AST(edge)
+    }
+
+    const edges = [...this.edges]
+    edges.map((i) => {
+      i[0]++
+      return i
+    })
+    edges.unshift([0, edge])
+    this._edges = new Map(edges)
   }
 }
