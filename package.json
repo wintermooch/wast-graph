@@ -1,6 +1,6 @@
 {
   "name": "wast-graph",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "a module for reading and manipulating webassembly's ast",
   "main": "index.js",
   "scripts": {
