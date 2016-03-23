@@ -1,6 +1,5 @@
 'use strict'
 const Graph = require('generic-digraph')
-
 const visitorKeys = {
   binop: ['left', 'right'],
   block: ['body'],
@@ -56,6 +55,10 @@ module.exports = class AST extends Graph {
     }
   }
 
+  /**
+   * parse the an wasm json AST
+   * @param {object} json
+   */
   parse (json) {
     if (Array.isArray(json)) {
       this._value = {
@@ -102,7 +105,12 @@ module.exports = class AST extends Graph {
     return value
   }
 
-  unshiftEdge (edge) {
+  /**
+   * similar to `Array.unshift`. Adds ordered edge to the beginging of a array
+   * of edges
+   * @param {object} edge
+   */
+  unshift (edge) {
     if (!(edge instanceof AST)) {
       edge = new AST(edge)
     }
@@ -114,5 +122,16 @@ module.exports = class AST extends Graph {
     })
     edges.unshift([0, edge])
     this._edges = new Map(edges)
+  }
+
+  /**
+   * similar to `Array.push`. Adds ordered edge to the end of a array of edges
+   * @param {object} edge
+   */
+  push (edge) {
+    if (!(edge instanceof AST)) {
+      edge = new AST(edge)
+    }
+    this._edges.set(this._edges.size, edge)
   }
 }
