@@ -1,5 +1,6 @@
 'use strict'
 const Graph = require('generic-digraph')
+// kind edge map
 const visitorKeys = {
   binop: ['left', 'right'],
   block: ['body'],
@@ -50,19 +51,22 @@ const visitorKeys = {
 module.exports = class AST extends Graph {
   constructor (json) {
     super()
-    if (json) {
-      this.parse(json)
-    }
+    this.parse(json)
+  }
+
+  get kind () {
+    return this._value.kind
   }
 
   /**
-   * parse the an wasm json AST
+   * parse a wasm json AST
    * @param {object} json
    */
   parse (json) {
     if (Array.isArray(json)) {
       this._value = {
-        array: true
+        array: true,
+        kind: null
       }
 
       if (json.length) {
@@ -77,7 +81,10 @@ module.exports = class AST extends Graph {
       const branches = visitorKeys[json.kind]
       const self = this
       branches.forEach(function (br) {
-        self.setEdge(br, json[br])
+        const jsonbr = json[br]
+        if (jsonbr) {
+          self.setEdge(br, json[br])
+        }
         delete json[br]
       })
       this._value = json
@@ -93,12 +100,14 @@ module.exports = class AST extends Graph {
           value.push(el[1].toJSON())
         }
       } else {
+        const topo = visitorKeys[value.kind]
+        for (const el of topo) {
+          value[el] = null
+        }
         for (const el of this.edges) {
           value[el[0]] = el[1].toJSON()
         }
       }
-    } else if (!value) {
-      return null
     } else if (value.array) {
       return []
     }
@@ -133,5 +142,9 @@ module.exports = class AST extends Graph {
       edge = new AST(edge)
     }
     this._edges.set(this._edges.size, edge)
+  }
+
+  get importTable () {
+    return [...this].filter((vertex) => vertex[1].kind === 'import')
   }
 }

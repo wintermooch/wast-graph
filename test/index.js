@@ -1,4 +1,5 @@
 const tape = require('tape')
+const parser = require('wast-parser')
 const AST = require('../')
 
 tape('should parse ast', function (t) {
@@ -248,5 +249,21 @@ tape('should push edge that is not AST instance', function (t) {
   body.push(json)
 
   t.deepEquals(block.toJSON(), expected)
+  t.end()
+})
+
+tape('should return import table', function (t) {
+  const wast =
+    `(module
+      (import "spectest" "print" (param i32))
+      (func)
+      (export "fac-rec" 0)
+      (import "spectest" "print" (param i32))
+    )`
+
+  const json = parser.parse(wast)
+  const ast = new AST(json)
+  const importTable = ast.importTable
+  t.equals(importTable.length, 2)
   t.end()
 })
