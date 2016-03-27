@@ -270,9 +270,3 @@ tape('should return import table', function (t) {
   t.equals(importTable.length, 2)
   t.end()
 })
-
-tape('should return import table', function (t) {
-  const json = require('./test.json')
-  const ast = new AST(json)
-  t.end()
-})
