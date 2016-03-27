@@ -51,6 +51,9 @@ tape('should unsift edge', function (t) {
   body.unshift(json)
 
   t.deepEquals(block.toJSON(), expected)
+  const copy = block.copy()
+  t.deepEquals(copy.toJSON(), expected)
+
   t.end()
 })
 
@@ -265,5 +268,11 @@ tape('should return import table', function (t) {
   const ast = new AST(json)
   const importTable = ast.importTable
   t.equals(importTable.length, 2)
+  t.end()
+})
+
+tape('should return import table', function (t) {
+  const json = require('./test.json')
+  const ast = new AST(json)
   t.end()
 })

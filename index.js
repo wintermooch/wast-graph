@@ -45,6 +45,7 @@ const visitorKeys = {
   then: ['id', 'body'],
   type: ['id'],
   unop: ['expr'],
+  assert_return: [],
   unreachable: []
 }
 
@@ -56,6 +57,10 @@ module.exports = class AST extends Graph {
 
   get kind () {
     return this._value.kind
+  }
+
+  copy () {
+    return new this.constructor(this.toJSON())
   }
 
   /**
