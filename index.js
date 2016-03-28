@@ -1,7 +1,7 @@
 'use strict'
 const Graph = require('generic-digraph')
 // kind edge map
-const visitorKeys = {
+const topoKeys = {
   binop: ['left', 'right'],
   block: ['body'],
   br: ['expr'],
@@ -67,7 +67,7 @@ module.exports = class AST extends Graph {
   }
 
   get isLabeled () {
-    return labeled.has(this.kind)  
+    return labeled.has(this.kind)
   }
 
   copy () {
@@ -94,7 +94,7 @@ module.exports = class AST extends Graph {
       }
     } else {
       json = Object.assign({}, json)
-      const branches = visitorKeys[json.kind]
+      const branches = topoKeys[json.kind]
       const self = this
       branches.forEach(function (br) {
         const jsonbr = json[br]
@@ -110,25 +110,21 @@ module.exports = class AST extends Graph {
   toJSON () {
     let value = this.getValue()
     if (value.kind) {
-      const topo = visitorKeys[value.kind]
+      const topo = topoKeys[value.kind]
       for (const el of topo) {
         value[el] = null
       }
     }
 
-    if (this.edges.size) {
-      if (value.array) {
-        value = []
-        for (const el of this.edges) {
-          value.push(el[1].toJSON())
-        }
-      } else {
-        for (const el of this.edges) {
-          value[el[0]] = el[1].toJSON()
-        }
+    if (value.array) {
+      value = []
+      for (const el of this.edges) {
+        value.push(el[1].toJSON())
       }
-    } else if (value.array) {
-      return []
+    } else {
+      for (const el of this.edges) {
+        value[el[0]] = el[1].toJSON()
+      }
     }
     return value
   }

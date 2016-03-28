@@ -1,6 +1,22 @@
+'use strict'
 const tape = require('tape')
 const parser = require('wast-parser')
 const AST = require('../')
+
+tape('basic', (t) => {
+  const blockJSON = {
+    'kind': 'block',
+    'id': null,
+    'body': [{
+      'kind': 'identifier',
+      'id': 'gasAdd'
+    }]
+  }
+  const graph = new AST(blockJSON)
+  t.equal(graph.isLabeled, true, 'isLabeled should work')
+  t.equal(graph.isBranch, false, 'isBranch should work')
+  t.end()
+})
 
 tape('should parse ast', function (t) {
   const json = require('./fixture.json')
@@ -9,7 +25,7 @@ tape('should parse ast', function (t) {
   t.end()
 })
 
-tape('should unsift edge', function (t) {
+tape('should unsift edge', (t) => {
   const json = {
     'kind': 'call_import',
     'id': {
@@ -57,7 +73,7 @@ tape('should unsift edge', function (t) {
   t.end()
 })
 
-tape('should unshift edge that is already an ast', function (t) {
+tape('should unshift edge that is already an ast', (t) => {
   const json = {
     'kind': 'call_import',
     'id': {
@@ -102,7 +118,7 @@ tape('should unshift edge that is already an ast', function (t) {
   t.end()
 })
 
-tape('should unshift edge to a body that is not empty', function (t) {
+tape('should unshift edge to a body that is not empty', (t) => {
   const json = {
     'kind': 'call_import',
     'id': {
@@ -153,7 +169,7 @@ tape('should unshift edge to a body that is not empty', function (t) {
   t.end()
 })
 
-tape('should push edge', function (t) {
+tape('should push edge', (t) => {
   const json = {
     'kind': 'call_import',
     'id': {
@@ -204,7 +220,7 @@ tape('should push edge', function (t) {
   t.end()
 })
 
-tape('should push edge that is not AST instance', function (t) {
+tape('should push edge that is not AST instance', (t) => {
   const json = {
     'kind': 'call_import',
     'id': {
@@ -255,7 +271,7 @@ tape('should push edge that is not AST instance', function (t) {
   t.end()
 })
 
-tape('should return import table', function (t) {
+tape('should return import table', (t) => {
   const wast =
     `(module
       (import "spectest" "print" (param i32))
