@@ -4,23 +4,23 @@ const Graph = require('generic-digraph')
 const visitorKeys = {
   binop: ['left', 'right'],
   block: ['body'],
-  br: ['id', 'expr'],
-  br_if: ['id', 'test', 'expr'],
+  br: ['expr'],
+  br_if: ['test', 'expr'],
   br_table: ['expr', 'body'],
-  call: ['id', 'expr'],
-  call_import: ['id', 'expr'],
-  call_indirect: ['id', 'expr'],
+  call: ['expr'],
+  call_import: ['expr'],
+  call_indirect: ['expr'],
   const: [],
   cvtop: ['expr'],
-  else: ['id', 'body'],
-  export: ['id'],
+  else: ['body'],
+  export: [],
   failure: [],
-  func: ['id', 'param', 'result', 'body'],
-  get_local: ['id'],
+  func: ['param', 'result', 'body'],
+  get_local: [],
   grow_memory: ['expr'],
   identifier: [],
   if: ['test', 'consequent', 'alternate'],
-  import: ['id', 'params'],
+  import: ['params'],
   invoke: ['body'],
   item: [],
   literal: [],
@@ -38,16 +38,19 @@ const visitorKeys = {
   script: ['body'],
   segment: [],
   select: ['test', 'consequent', 'alternate'],
-  set_local: ['id', 'init'],
-  start: ['id'],
+  set_local: ['init'],
+  start: [],
   store: ['addr', 'data'],
   table: ['items'],
-  then: ['id', 'body'],
+  then: ['body'],
   type: ['id'],
   unop: ['expr'],
   assert_return: [],
   unreachable: []
 }
+
+const branches = new Set(['br', 'br_table'])
+const labeled = new Set(['block'])
 
 module.exports = class AST extends Graph {
   constructor (json) {
@@ -57,6 +60,14 @@ module.exports = class AST extends Graph {
 
   get kind () {
     return this._value.kind
+  }
+
+  get isBranch () {
+    return branches.has(this.kind)
+  }
+
+  get isLabeled () {
+    return labeled.has(this.kind)  
   }
 
   copy () {
@@ -98,6 +109,13 @@ module.exports = class AST extends Graph {
 
   toJSON () {
     let value = this.getValue()
+    if (value.kind) {
+      const topo = visitorKeys[value.kind]
+      for (const el of topo) {
+        value[el] = null
+      }
+    }
+
     if (this.edges.size) {
       if (value.array) {
         value = []
@@ -105,10 +123,6 @@ module.exports = class AST extends Graph {
           value.push(el[1].toJSON())
         }
       } else {
-        const topo = visitorKeys[value.kind]
-        for (const el of topo) {
-          value[el] = null
-        }
         for (const el of this.edges) {
           value[el[0]] = el[1].toJSON()
         }
