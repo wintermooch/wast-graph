@@ -3,7 +3,9 @@ const parser = require('wast-parser')
 const AST = require('../')
 
 const wast = 
-    `(module (func $run (param i64)
+    `(module
+        (table 0)
+        (func $run (param i64)
         (local $i32 i32) (local $i64 i64) (local $f32 f32) (local $f64 f64)
         (local i32 i32 i32)
         (call_import $print_i32 (set_local $i32 (i32.const 1)))
@@ -26,6 +28,7 @@ const wast =
 
 const json = parser.parse(wast)
 console.log(JSON.stringify(json, null, 2))
+
 const ast = new AST(json)
 const it = ast.iterate({
   accumulate: function * (name, vertex) {
