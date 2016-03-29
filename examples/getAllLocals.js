@@ -1,8 +1,7 @@
-const tape = require('tape')
 const parser = require('wast-parser')
 const AST = require('../')
 
-const wast = 
+const wast =
     `(module
         (table 0)
         (func $run (param i64)
