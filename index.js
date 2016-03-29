@@ -15,7 +15,7 @@ const topoKeys = {
   else: ['body'],
   export: [],
   failure: [],
-  func: ['param', 'result', 'body'],
+  func: ['param', 'result', 'body', 'local'],
   get_local: [],
   grow_memory: ['expr'],
   identifier: [],
