@@ -32,7 +32,7 @@
           "kind": "func",
           "id": null,
           "type": null,
-          "param": [],
+          "params": [],
           "result": {
             "kind": "result",
             "type": "i32"
@@ -55,7 +55,7 @@
                         "kind": "identifier",
                         "id": "gasUsed"
                       },
-                      "expr": []
+                      "exprs": []
                     },
                     "right": {
                       "kind": "const",
@@ -63,7 +63,7 @@
                       "init": "5"
                     }
                   },
-                  "consequent": {
+                  "then": {
                     "kind": "br",
                     "id": {
                       "kind": "literal",
@@ -72,7 +72,7 @@
                     },
                     "expr": null
                   },
-                  "alternate": null
+                  "else": null
                 },
                 {
                   "kind": "unreachable"

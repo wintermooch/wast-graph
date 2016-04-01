@@ -18,14 +18,14 @@
   "author": "mjbecze <mjbecze@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "generic-digraph": "^2.5.0"
+    "generic-digraph": "^3.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.4",
     "istanbul": "^0.4.1",
     "standard": "^6.0.8",
     "tape": "^4.0.3",
-    "wast-parser": "^0.15.0"
+    "wast-parser": "^0.17.0"
   },
   "repository": {
     "type": "git",

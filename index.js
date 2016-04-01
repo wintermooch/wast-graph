@@ -1,53 +1,6 @@
 'use strict'
 const Graph = require('generic-digraph')
-// kind edge map
-const topoKeys = {
-  binop: ['left', 'right'],
-  block: ['body'],
-  br: ['expr'],
-  br_if: ['test', 'expr'],
-  br_table: ['expr', 'body'],
-  call: ['expr'],
-  call_import: ['expr'],
-  call_indirect: ['expr'],
-  const: [],
-  cvtop: ['expr'],
-  else: ['body'],
-  export: [],
-  failure: [],
-  func: ['param', 'result', 'body', 'local'],
-  get_local: [],
-  grow_memory: ['expr'],
-  identifier: [],
-  if: ['test', 'consequent', 'alternate'],
-  import: ['params'],
-  invoke: ['body'],
-  item: [],
-  literal: [],
-  load: ['expr'],
-  local: ['items'],
-  loop: ['body', 'extra'],
-  memory: ['segment'],
-  memory_size: [],
-  module: ['body'],
-  nop: [],
-  param: ['items'],
-  relop: ['left', 'right'],
-  result: [],
-  return: ['expr'],
-  script: ['body'],
-  segment: [],
-  select: ['test', 'consequent', 'alternate'],
-  set_local: ['init'],
-  start: [],
-  store: ['addr', 'data'],
-  table: ['items'],
-  then: ['body'],
-  type: ['id'],
-  unop: ['expr'],
-  assert_return: [],
-  unreachable: []
-}
+const topoKeys = require('wast-spec/lib/visitor-keys.json')
 
 const branches = new Set(['br', 'br_table'])
 const labeled = new Set(['block'])
@@ -89,7 +42,7 @@ module.exports = class AST extends Graph {
         json = json.slice(0)
         const self = this
         json.forEach((el, i) => {
-          self.setEdge(i, el)
+          self.set(i, el)
         })
       }
     } else {
@@ -99,7 +52,7 @@ module.exports = class AST extends Graph {
       branches.forEach(function (br) {
         const jsonbr = json[br]
         if (jsonbr) {
-          self.setEdge(br, json[br])
+          self.set(br, json[br])
         }
         delete json[br]
       })
@@ -148,6 +101,17 @@ module.exports = class AST extends Graph {
     this._edges = new Map(edges)
   }
 
+  insertAt (edge, index) {
+    if (!(edge instanceof AST)) {
+      edge = new AST(edge)
+    }
+
+    const edges = [...this.edges]
+    edges.splice(index, 0, [index, edge])
+    edges.slice(index).forEach((el) => ++el[0])
+    return new Map(edges)
+  }
+
   /**
    * similar to `Array.push`. Adds ordered edge to the end of a array of edges
    * @param {object} edge
@@ -161,5 +125,10 @@ module.exports = class AST extends Graph {
 
   get importTable () {
     return [...this].filter((vertex) => vertex[1].kind === 'import')
+  }
+
+
+  create (type) {
+     
   }
 }
