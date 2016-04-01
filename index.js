@@ -126,9 +126,4 @@ module.exports = class AST extends Graph {
   get importTable () {
     return [...this].filter((vertex) => vertex[1].kind === 'import')
   }
-
-
-  create (type) {
-     
-  }
 }

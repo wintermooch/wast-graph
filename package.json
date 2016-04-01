@@ -18,7 +18,8 @@
   "author": "mjbecze <mjbecze@gmail.com>",
   "license": "MPL-2.0",
   "dependencies": {
-    "generic-digraph": "^3.0.0"
+    "generic-digraph": "^3.0.0",
+    "wast-spec": "^0.8.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.4",
