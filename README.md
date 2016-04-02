@@ -7,9 +7,6 @@
 
 A module for manipulating webassembly's ast. It uses the [AST JSON format](https://github.com/drom/wast-spec) produce by [wast-parser](https://github.com/drom/wast-parser).
 
-# INSTALL
-`npm install wast-transform`
-
 # API
 This has about same API as [generic-digraph](https://github.com/wanderer/generic-digraph/blob/master/docs/index.md). With a couple of additional functions
 
