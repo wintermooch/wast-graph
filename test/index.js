@@ -4,7 +4,7 @@ const parser = require('wast-parser')
 const AST = require('../')
 
 tape('basic', (t) => {
-  const blockJSON = {
+  let json = {
     'kind': 'block',
     'id': null,
     'body': [{
@@ -12,18 +12,27 @@ tape('basic', (t) => {
       'id': 'gasAdd'
     }]
   }
-  const graph = new AST(blockJSON)
-  t.equal(graph.isLabeled, true, 'isLabeled should work')
+  let graph = new AST(json)
   t.equal(graph.isBranch, false, 'isBranch should work')
+
+  json = {
+    kind: 'call_import',
+    id: {
+      kind: 'literal',
+      value: 0,
+      raw: 0
+    },
+    exprs: [{
+      kind: 'const',
+      type: 'i32',
+      init: 2
+    }]
+  }
+
+  graph = new AST(json)
+  t.deepEqual(json, graph.toJSON())
   t.end()
 })
-
-// tape('should parse ast', function (t) {
-//   const json = require('./fixture.json')
-//   const ast = new AST(json)
-//   t.deepEqual(ast.toJSON(), json)
-//   t.end()
-// })
 
 tape('should unsift edge', (t) => {
   const json = {

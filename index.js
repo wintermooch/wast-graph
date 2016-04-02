@@ -1,28 +1,38 @@
 'use strict'
 const Graph = require('generic-digraph')
 const topoKeys = require('wast-spec/lib/visitor-keys.json')
+const schemas = require('./schemas.json')
 
 const branches = new Set(['br', 'br_table'])
-const labeled = new Set(['block'])
 
 module.exports = class AST extends Graph {
   constructor (json) {
     super()
+    if (typeof json === 'string') {
+      const key = json
+      json = schemas[key]
+      json.kind = key
+    }
     this.parse(json)
   }
 
+  /**
+   * the node type
+   */
   get kind () {
     return this._value.kind
   }
 
+  /**
+   * whether or not the current node can branch
+   */
   get isBranch () {
     return branches.has(this.kind)
   }
 
-  get isLabeled () {
-    return labeled.has(this.kind)
-  }
-
+  /**
+   * returns a copy of the AST
+   */
   copy () {
     return new this.constructor(this.toJSON())
   }
@@ -34,8 +44,7 @@ module.exports = class AST extends Graph {
   parse (json) {
     if (Array.isArray(json)) {
       this._value = {
-        array: true,
-        kind: null
+        kind: 'array'
       }
 
       if (json.length) {
@@ -62,34 +71,32 @@ module.exports = class AST extends Graph {
 
   toJSON () {
     let value = this.getValue()
-    if (value.kind) {
+    if (value.kind !== 'array') {
       const topo = topoKeys[value.kind]
       for (const el of topo) {
         value[el] = null
       }
-    }
 
-    if (value.array) {
+      for (const el of this.edges) {
+        value[el[0]] = el[1].toJSON()
+      }
+    } else {
       value = []
       for (const el of this.edges) {
         value.push(el[1].toJSON())
-      }
-    } else {
-      for (const el of this.edges) {
-        value[el[0]] = el[1].toJSON()
       }
     }
     return value
   }
 
   /**
-   * similar to `Array.unshift`. Adds ordered edge to the beginging of a array
+   * similar to `Array.unshift`. Adds a node to the begining of an 'array'
    * of edges
-   * @param {object} edge
+   * @param {object} node
    */
-  unshift (edge) {
-    if (!(edge instanceof AST)) {
-      edge = new AST(edge)
+  unshift (node) {
+    if (!(node instanceof AST)) {
+      node = new AST(node)
     }
 
     const edges = [...this.edges]
@@ -97,30 +104,36 @@ module.exports = class AST extends Graph {
       i[0]++
       return i
     })
-    edges.unshift([0, edge])
+
+    edges.unshift([0, node])
     this._edges = new Map(edges)
   }
 
-  insertAt (edge, index) {
-    if (!(edge instanceof AST)) {
-      edge = new AST(edge)
+  /**
+   * inserts an node into an `array` kind at a given index
+   * @param {integer} index
+   * @param {AST} node
+   */
+  insertAt (index, node) {
+    if (!(node instanceof AST)) {
+      node = new AST(node)
     }
 
     const edges = [...this.edges]
-    edges.splice(index, 0, [index, edge])
-    edges.slice(index).forEach((el) => ++el[0])
-    return new Map(edges)
+    edges.splice(index, 0, [index, node])
+    edges.slice(index + 1).forEach((el) => ++el[0])
+    this._edges = new Map(edges)
   }
 
   /**
    * similar to `Array.push`. Adds ordered edge to the end of a array of edges
    * @param {object} edge
    */
-  push (edge) {
-    if (!(edge instanceof AST)) {
-      edge = new AST(edge)
+  push (node) {
+    if (!(node instanceof AST)) {
+      node = new AST(node)
     }
-    this._edges.set(this._edges.size, edge)
+    this._edges.set(this._edges.size, node)
   }
 
   get importTable () {
